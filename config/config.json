@@ -2,22 +2,25 @@
   "development": {
     "username": "root",
     "password": "root",
-    "database": "node_app",
+    "database": "apikatalis",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   },
   "test": {
     "username": "root",
     "password": "root",
-    "database": "node_app_test",
+    "database": "apikatalis",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   },
   "production": {
     "username": "root",
     "password": "root",
-    "database": "node_app_production",
+    "database": "apikatalis",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   }
 }

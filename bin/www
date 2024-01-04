@@ -5,14 +5,16 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('node-auth-role-permissions:server');
+var debug = require('debug')('nodeapi:server');
 var http = require('http');
+require("dotenv").config();
 
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '3000');
+console.log(port);
 app.set('port', port);
 
 /**
@@ -86,5 +88,7 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  console.log('Server Listening on ' + bind);
 }
+
+

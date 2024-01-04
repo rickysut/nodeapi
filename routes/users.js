@@ -47,12 +47,12 @@ router.get('/', passport.authenticate('jwt', {
         include: [
           { 
             model: Role,
-            include: [
-              {
-                model: Permission,
-                as: 'permissions'
-              }
-            ]
+            // include: [
+            //   {
+            //     model: Permission,
+            //     as: 'permissions'
+            //   }
+            // ]
           }
         ]
       })
@@ -71,7 +71,19 @@ router.get('/:id', passport.authenticate('jwt', {
 }), function (req, res) {
   helper.checkPermission(req.user.role_id, 'user_get').then((rolePerm) => {
     User
-      .findByPk(req.params.id)
+      .findByPk(req.params.id, {
+        include: [
+          { 
+            model: Role,
+            // include: [
+            //   {
+            //     model: Permission,
+            //     as: 'permissions'
+            //   }
+            // ]
+          }
+        ]  
+      })
       .then((user) => res.status(200).send(user))
       .catch((error) => {
         res.status(400).send(error);
