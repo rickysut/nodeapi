@@ -55,7 +55,7 @@ router.post('/signin', function (req, res) {
                         expiresIn: 86400 * 30
                     });
                     jwt.verify(token, 'nodeauthsecret', function (err, data) {
-                        console.log(err, data);
+                        //console.log(err, data);
                     })
                     res.json({
                         success: true,

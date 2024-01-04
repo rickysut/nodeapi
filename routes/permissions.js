@@ -48,6 +48,26 @@ router.get('/', passport.authenticate('jwt', {
     });
 });
 
+// Get permission by ID
+router.get('/:id', passport.authenticate('jwt', {
+    session: false
+}), function (req, res) {
+    helper.checkPermission(req.user.role_id, 'permissions_get').then((rolePerm) => {
+
+    }).catch((error) => {
+        res.status(403).send(error);
+    });
+    Permission
+        .findByPk(req.params.id, {})
+        .then((roles) => res.status(200).send(roles))
+        .catch((error) => {
+            res.status(400).send({
+                success: false,
+                msg: error
+            });
+        });
+});
+
 // Update a permission
 router.put('/:id', passport.authenticate('jwt', {
     session: false

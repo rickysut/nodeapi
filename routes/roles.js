@@ -45,7 +45,7 @@ router.get('/', passport.authenticate('jwt', {
     session: false
 }), function (req, res) {
     helper.checkPermission(req.user.role_id, 'role_get_all').then((rolePerm) => {
-        console.log(rolePerm);
+        // console.log(rolePerm);
         Role
             .findAll({
                 include: [{

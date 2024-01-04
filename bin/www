@@ -5,8 +5,15 @@
  */
 
 var app = require('../app');
+const express = require('express');
+const bodyParser = require('body-parser');
 var debug = require('debug')('nodeapi:server');
 var http = require('http');
+const https = require('https');
+const compression = require('compression');
+const fs = require('fs');
+const cors = require('cors');
+
 require("dotenv").config();
 
 /**
@@ -14,20 +21,52 @@ require("dotenv").config();
  */
 
 var port = normalizePort(process.env.PORT || '3000');
-console.log(port);
+// console.log(port);
+app.use(compression());
+app.use(cors());
+app.use(requireHTTPS);
 app.set('port', port);
+
+// Express body parser
+app.use('/public', express.static('public'));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+// var server = https.createServer(app);
+var server = https.createServer({
+  key: fs.readFileSync(process.env.SSLKEY),
+  cert: fs.readFileSync(process.env.SSLCERT),
+}, app)
+    .listen(port, function() {
+      console.log('App listening on port ' + port + '! Go to https://localhost:' + port + '/');
+    });
+
+
+function requireHTTPS(req, res, next) {
+  if (!req.secure) {
+    return res.redirect('https://' + req.get('host') + req.url);
+  }
+  next();
+}
+
+app.enable('trust proxy');
+app.use(function(req, res, next) {
+  if (req.secure) {
+    return next();
+  }
+  res.redirect('https://' + req.headers.host + req.url);
+});
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+// server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -88,7 +127,7 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  console.log('Server Listening on ' + bind);
+    debug('Listening on ' + bind);
 }
 
 
