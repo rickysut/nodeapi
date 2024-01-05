@@ -1,3 +1,8 @@
-# Authentication Role Permission API using Node Express MySQL
+# Katalis API
 
-This source code is part of [Authentication Role Permission API using Node Express MySQL](https://www.djamware.com/post/6158fee27523f53fb5c1b2f4/authentication-role-permission-api-using-node-express-mysql) tutorial.
+1. npm install
+2. cp .env-example .env , set port & env
+3. setup db at config/config.json
+4. sequelize db:migrate
+5. sequelize db:seed:all
+6. npm run start
